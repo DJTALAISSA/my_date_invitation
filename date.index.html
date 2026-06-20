@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Invitation ✨</title>
+    <style>
+        :root {
+            --primary-pink: #ff6584;
+            --secondary-pink: #ff8da1;
+            --bg-gradient: linear-gradient(135deg, #ffe9f3 0%, #e1e9ff 100%);
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --text-color: #4a4a4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+
+        /* Background Sparkles */
+        .decorations {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Container Card */
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(255, 101, 132, 0.15);
+            width: 90%;
+            max-width: 480px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            transition: all 0.5s ease;
+        }
+
+        /* Hide steps initially */
+        .step {
+            display: none;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2rem;
+            color: #d13b5a;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1.5rem;
+            position: relative;
+            min-height: 50px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .btn-primary {
+            background: var(--primary-pink);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e04d6c;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 101, 132, 0.3);
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: #888;
+            border: 1px solid #ddd;
+        }
+
+        /* Inputs & Selection */
+        input[type="date"], input[type="time"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffe1eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+            outline: none;
+            color: var(--text-color);
+            background: rgba(255,255,255,0.9);
+            transition: border-color 0.3s;
+        }
+
+        input[type="date"]:focus, input[type="time"]:focus {
+            border-color: var(--primary-pink);
+        }
+
+        /* Food Grid Options */
+        .grid-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        .grid-item {
+            background: white;
+            border: 2px solid #fff;
+            padding: 15px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .grid-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--secondary-pink);
+        }
+
+        .grid-item.selected {
+            background: #fff0f3;
+            border-color: var(--primary-pink);
+        }
+
+        .grid-item .icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .grid-item .label {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* Summary Details */
+        .summary-box {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+            border: 1px dashed var(--secondary-pink);
+        }
+
+        .summary-line {
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .summary-line strong {
+            color: var(--primary-pink);
+        }
+
+        /* Floating Hearts Animation */
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        .heart {
+            position: absolute;
+            color: var(--secondary-pink);
+            font-size: 1.5rem;
+            animation: floatUp 4s linear infinite;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="decorations" id="decorations"></div>
+
+    <div class="container">
+        <div class="step active" id="step1">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🌹</div>
+            <h1>Hey there!</h1>
+            <p>I was wondering... Will you go on a date with me? ✨</p>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="nextStep(2)">YES! 💖</button>
+                <button class="btn btn-secondary" id="noBtn">No 🥺</button>
+            </div>
+        </div>
+
+        <div class="step" id="step2">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📅</div>
+            <h1>Wonderful choice!</h1>
+            <p>Let's lock down the perfect time.</p>
+            
+            <label style="display:block; text-align:left; margin-bottom:5px; font-weight:500;">Pick a day:</label>
+            <input type="date" id="dateInput">
+
+            <label style="display:block; text-align:left; margin-bottom:5px; font-weight:500;">Pick a time:</label>
+            <input type="time" id="timeInput">
+
+            <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="validateStep2()">Next ➔</button>
+        </div>
+
+        <div class="step" id="step3">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🍕</div>
+            <h1>What are we feeling?</h1>
+            <p>Select your favorite food craving for our date:</p>
+            
+            <div class="grid-options">
+                <div class="grid-item" onclick="selectFood(this, 'Sushi 🍣')">
+                    <div class="icon">🍣</div>
+                    <div class="label">Sushi</div>
+                </div>
+                <div class="grid-item" onclick="selectFood(this, 'Pizza 🍕')">
+                    <div class="icon">🍕</div>
+                    <div class="label">Pizza</div>
+                </div>
+                <div class="grid-item" onclick="selectFood(this, 'Burgers 🍔')">
+                    <div class="icon">🍔</div>
+                    <div class="label">Burgers</div>
+                </div>
+                <div class="grid-item" onclick="selectFood(this, 'Pasta 🍝')">
+                    <div class="icon">🍝</div>
+                    <div class="label">Pasta</div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%;" onclick="validateStep3()">Finalize Date 🎉</button>
+        </div>
+
+        <div class="step" id="step4">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🥳</div>
+            <h1>It's an Official Date!</h1>
+            <p>I can't wait to see you! Here is our plan:</p>
+            
+            <div class="summary-box">
+                <div class="summary-line">📅 <strong>Date:</strong> <span id="finalDate">--</span></div>
+                <div class="summary-line">⏰ <strong>Time:</strong> <span id="finalTime">--</span></div>
+                <div class="summary-line">😋 <strong>Food:</strong> <span id="finalFood">--</span></div>
+            </div>
+
+            <p style="font-size: 0.9rem; font-style: italic; color: #888;">Normal guys send normal text messages, but I built this website just for you. ✨</p>
+        </div>
+    </div>
+
+    <script>
+        // Data Store
+        let dateData = "";
+        let timeData = "";
+        let foodData = "";
+
+        // Elements
+        const noBtn = document.getElementById('noBtn');
+        let noCount = 0;
+
+        // Smart & Funny "No" Button behavior
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('click', moveNoButton);
+
+        function moveNoButton() {
+            noCount++;
+            
+            // Generate random positions
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40) + 20;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40) + 20;
+            
+            // Teleport button anywhere on screen
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+
+            // Shrink the No button slightly each time, making it harder to click
+            let currentScale = 1 - (noCount * 0.1);
+            if(currentScale < 0.3) currentScale = 0.3; // don't let it disappear completely
+            noBtn.style.transform = `scale(${currentScale})`;
+        }
+
+        // Navigation Engine
+        function nextStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+            
+            if(stepNumber === 4) {
+                startHeartRain();
+            }
+        }
+
+        function validateStep2() {
+            const dateInput = document.getElementById('dateInput').value;
+            const timeInput = document.getElementById('timeInput').value;
+
+            if(!dateInput || !timeInput) {
+                alert("Please select both a beautiful date and time! ⏰");
+                return;
+            }
+
+            // Format date nicely
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateData = new Date(dateInput).toLocaleDateString('en-US', options);
+            timeData = timeInput;
+            
+            nextStep(3);
+        }
+
+        function selectFood(element, foodName) {
+            document.querySelectorAll('.grid-item').forEach(item => item.classList.remove('selected'));
+            element.classList.add('selected');
+            foodData = foodName;
+        }
+
+        function validateStep3() {
+            if(!foodData) {
+                alert("Please select what we're eating! 🍕");
+                return;
+            }
+
+            // Populate Final Screen
+            document.getElementById('finalDate').innerText = dateData;
+            document.getElementById('finalTime').innerText = timeData;
+            document.getElementById('finalFood').innerText = foodData;
+
+            // Reset position of 'no' button if needed, clean up
+            noBtn.style.position = 'static';
+            noBtn.style.transform = 'none';
+
+            nextStep(4);
+        }
+
+        // Celebration Effects (Floating Hearts)
+        function startHeartRain() {
+            const container = document.getElementById('decorations');
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = ['💖', '💝', '✨', '🌸', '❤️'][Math.floor(Math.random() * 5)];
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                    heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+                    container.appendChild(heart);
+
+                    // Remove after animation finishes
+                    setTimeout(() => heart.remove(), 5000);
+                }, i * 150);
+            }
+        }
+    </script>
+</body>
+</html>
